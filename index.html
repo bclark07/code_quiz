@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Code Quiz</title>
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>View High Scores</h1>
+        <!--add timer and "View High Scores" - need to return HighScores array somewhere-->
+    </header>
+
+
+    <!--center this later-->
+    <!-- radio button elements here? -->
+    <div id="page_1">
+        <!-- might put id or class as a number to iterate through divs-->
+        <h2>Coding Quiz Challenge</h2>
+        <button id="start">Start Quiz</button>
+
+    </div>
+
+    <div id="page_2">
+
+        <button class="AnswerOption" id="one"></button>
+        <button class="AnswerOption" id="two"></button>
+        <button class="AnswerOption" id="three"></button>
+        <button class="AnswerOption" id="four"></button>
+
+    </div>
+
+    <div id="page_3">
+        <h2>All Done</h2>
+
+    </div>
+
+    <div id="page_4">
+        <h2>High Score</h2>
+
+    </div>
+
+
+
+    <!-- <div id="msg"></div> only necessary to chagne the message -->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var questions = ["Commonly used data types DO NOT include:", "The condition in an if/else statement is enclosed within _________.", "Arrays in JavaScript can be used to store ___________.", "String values must be enclosed within ___________ when being assigned to variables.", "A very useful tool during debugging and development for printing content to the debugger is:"];
+            var answer_1 = ["strings", "quotes", "numbers and strings", "commas", "JavaScript"];
+            var answer_2 = ["booleans", "curly brackets", "other arrays", "curly brackets", "terminal/bash"];
+            var answer_3 = ["alerts", "parentheses", "booleans", "quotes", "for loops"];
+            var answer_4 = ["numbers", "square brackets", "all of the above", "parentheses", "console log"];
+            //2, 3, 4, 2, 3
+
+            var HighScores = [];
+
+            // need a click recognizer to cause the change
+
+            $(".start").on("click", function () {
+                console.log("Success");
+                container.setAttribute("class", "AnswerHide");
+
+                var one = "";
+                var two = "";
+                var three = "";
+                var four = "";
+                
+
+                for (i = 0; i < questions.length; i++) {
+
+                    console.log(questions.length);
+                    console.log(answer_1);
+                    one = (answer_1[i]);
+
+
+                }
+
+                //replace the answers
+
+                // start.addEventListener("click", function () {
+
+                // }
+
+
+                // need to store the answer somewhere and compare it to the correct answer
+                // need to return a grade
+                //worry about the colors and bootstrap later - go back and change all the assignements to reflect the bootstrap
+
+                // var msgDiv = document.querySelector("#msg"); will change the message?
+
+
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

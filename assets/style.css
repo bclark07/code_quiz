@@ -1,0 +1,11 @@
+h1 {
+    color: blue;
+}
+
+.AnswerHide {
+    display: block; /* display none hides the element vs. visibility: hidden just makes the element clear, keeps the space */
+}
+
+.AnswerOption {
+    display: none; /* display none hides the element vs. visibility: hidden just makes the element clear, keeps the space */
+}
