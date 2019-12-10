@@ -1,11 +1,38 @@
 h1 {
-    color: blue;
+    text-align: center;
 }
 
-.AnswerHide {
+header {  
+    display: flex;
+    justify-content: space-between;
+}
+
+#directions {
+    text-align: center
+}
+
+.buttonShow {
     display: block; /* display none hides the element vs. visibility: hidden just makes the element clear, keeps the space */
+
 }
 
-.AnswerOption {
+.buttonHide {
     display: none; /* display none hides the element vs. visibility: hidden just makes the element clear, keeps the space */
+
+}
+
+.response {
+    padding-top: 15px;
+}
+
+#submit {
+    padding: 15px;
+}
+
+#right {
+    color: green;
+}
+
+#wrong {
+    color: red;
 }
