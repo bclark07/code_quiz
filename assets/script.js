@@ -26,7 +26,9 @@ var questions = [
     },
 ];
 
-var HighScores = [];
+var initials = [];
+var num = [];
+var HighScores = { initials, num };
 var time = questions.length * 15; //for countdown timer
 var i = -1;
 var head = document.querySelector("#header");
@@ -38,11 +40,13 @@ var button4 = document.querySelector("#button_4");
 var response = document.querySelector(".response");
 var submit = document.querySelector("#submit");
 var timer = document.querySelector(".timer");
+var form = document.createElement("form");
+var initials = document.createElement("input");
 
 function setTime() {
     setInterval(function () {
         time--;
-        timer.textContent = "Timer :" + time + " seconds";
+        timer.textContent = "Timer: " + time + " seconds";
     }, 1000);
 }
 
@@ -61,7 +65,21 @@ button1.addEventListener("click", function () {
         button4.setAttribute("class", "buttonShow"); //why doesn't document.querySelector(".response").setAttribute work?
         i++;
         console.log(i);
-    } else {
+    } else if (i === 5) {
+        var initialsInput = document.querySelector("#name");
+        button1.innerHTML = "Go Back";
+        button2.innerHTML = "Clear High Scores";
+        button2.setAttribute("class", "buttonShow");
+        HighScores.initials.push(initialsInput.value);
+        //how clear out the form??
+        console.log(HighScores);
+        i++;
+    }
+    else if (button1.innerHTML === "Go Back") {
+        i = -1;
+        form.removeChild(initials);
+    }
+    else {
         if (questions[i].answer === button1.innerHTML) {
             response.setAttribute("id", "right"); //why doesn't document.querySelector(".response").setAttribute work?
             response.innerHTML = "Success!";
@@ -86,38 +104,32 @@ function reset() {
     } else if (i === 4) {
         // clearInterval(timeint); //why doesn't this work?
         var score = time;
+        HighScores.num.push(score);
+        console.log(HighScores);
         head.innerHTML = "All done!";
         question.innerHTML = "";
         document.querySelector("#directions").innerHTML = "Your final score is " + score;
         response.innerHTML = "";
-        var form = document.createElement("form");
-        var initials = document.createElement("input");
+        initials.setAttribute("id", "name");
         form.appendChild(initials);
-        response.appendChild(form);
         submit.appendChild(form); //how create an element in the middle of an array?
-        // initials.innerHTML = "Enter Initials: ";                   // Insert text
-        // response.appendChild(form); //why can't I append using class names?
+        initials.innerHTML = "Enter Initials: ";                   // Insert text
         button1.innerHTML = "Submit";
         button2.setAttribute("class", "buttonHide");
         button3.setAttribute("class", "buttonHide");
         button4.setAttribute("class", "buttonHide");
-
-        // <form class="initials">
-        // Initials:<br>
-        // <input class="input" type="text" name="Name">
-        // <br>
-        // </form>
-
-        //prepend form element
         i++;
-    } else { }
+    }
 }
 
 button2.addEventListener("click", function () {
     if (questions[i].answer === button2.innerHTML) {
         response.setAttribute("id", "right");
         response.innerHTML = "Success!";
-    } else {
+    } else if (button2.innerHTML === "Clear High Scores") {
+        HighScores = {};
+    }
+    else {
         response.setAttribute("id", "wrong");
         response.innerHTML = "Wrong, -10 seconds";
         time = time - 10;
@@ -153,33 +165,9 @@ button4.addEventListener("click", function () {
 });
 
 
-// // var new_movie = element.createElement(h1);
-// // var para = document.createElement("p");
-// // element.appendChild(new_movie);
-
-    // container.setAttribute("class", "AnswerHide");
-
-    // var one = "";
-    // var two = "";
-    // var three = "";
-    // var four = "";
-
-
-    // for (i = 0; i < questions.length; i++) {
-
-    //     console.log(questions.length);
-    //     console.log(answer_1);
-    //     one = (answer_1[i]);
-
-
-    // }
-
-
-
 
     // need to store the answer somewhere and compare it to the correct answer
     // need to return a grade
     //worry about the colors and bootstrap later - go back and change all the assignements to reflect the bootstrap
 
-    // var msgDiv = document.querySelector("#msg"); will change the message?
 
