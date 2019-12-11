@@ -28,7 +28,7 @@ var questions = [
 
 var name = [];
 var num = [];
-var HighScores = {name, num};
+var HighScores = { name, num };
 var time = questions.length * 15; //for countdown timer
 var i = -1;
 var head = document.querySelector("#header");
@@ -48,22 +48,19 @@ var scor = document.createElement("td");
 var timeint = 0;
 var score = 0;
 
-// function setTime () { 
-//     setInterval(function () {
-//         time--;
-//         timer.textContent = "Timer: " + time + " seconds";
-//     }, 1000);
-// }
+function setTime() {
+    var update = setInterval(function () {
+        time--;
+        timer.textContent = "Timer: " + time + " seconds";
+    }, 1000);
+    return update;
+}
 
 button1.addEventListener("click", function () {
     if (i === -1) {
         head.innerHTML = "";
         document.querySelector("#directions").innerHTML = "";
-        timeint = 
-        setInterval(function () {
-            time--;
-            timer.textContent = "Timer: " + time + " seconds";
-        }, 1000);
+        timeint = setTime();
         question.innerHTML = questions[0].title;
         button1.innerHTML = questions[0].choices[0];
         button2.innerHTML = questions[0].choices[1];
@@ -95,9 +92,7 @@ button1.addEventListener("click", function () {
             response.setAttribute("id", "right"); //why doesn't document.querySelector(".response").setAttribute work?
             response.innerHTML = "Success!";
         } else {
-            response.setAttribute("id", "wrong");
-            response.innerHTML = "Wrong, -10 seconds";
-            time = time - 10;
+            wrong();
         }
         new_q();
     }
@@ -120,7 +115,7 @@ function new_q() {
 function reset() {
     score = time;
     clearInterval(timeint);
-    time = questions.length * 15; 
+    time = questions.length * 15;
     HighScores.num.push(score);
     console.log(HighScores);
     head.innerHTML = "All done!";
@@ -148,9 +143,7 @@ button2.addEventListener("click", function () {
         response.innerHTML = "Success!";
         new_q();
     } else {
-        response.setAttribute("id", "wrong");
-        response.innerHTML = "Wrong, -10 seconds";
-        time = time - 10;
+        wrong();
         new_q();
     }
 
@@ -163,9 +156,7 @@ button3.addEventListener("click", function () {
         response.setAttribute("id", "right");
         response.innerHTML = "Success!";
     } else {
-        response.setAttribute("id", "wrong");
-        response.innerHTML = "Wrong, -10 seconds";
-        time = time - 10;
+        wrong();
     }
     new_q();
 
@@ -177,13 +168,18 @@ button4.addEventListener("click", function () {
         response.setAttribute("id", "right");
         response.innerHTML = "Success!";
     } else {
-        response.setAttribute("id", "wrong");
-        response.innerHTML = "Wrong, -10 seconds";
-        time = time - 10;
+        wrong();
     }
     new_q();
 
 });
+
+function wrong() {
+    response.setAttribute("id", "wrong");
+    response.innerHTML = "Wrong, -10 seconds";
+    time = time - 10;
+    timer.textContent = "Timer: " + time + " seconds";
+}
 
 
 
