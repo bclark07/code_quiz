@@ -26,9 +26,9 @@ var questions = [
     },
 ];
 
-var initials = [];
+var name = [];
 var num = [];
-var HighScores = { initials, num };
+var HighScores = {name, num};
 var time = questions.length * 15; //for countdown timer
 var i = -1;
 var head = document.querySelector("#header");
@@ -42,19 +42,28 @@ var submit = document.querySelector("#submit");
 var timer = document.querySelector(".timer");
 var form = document.createElement("form");
 var initials = document.createElement("input");
+var hs = document.createElement("tr");
+var init = document.createElement("td");
+var scor = document.createElement("td");
+var timeint = 0;
+var score = 0;
 
-function setTime() {
-    setInterval(function () {
-        time--;
-        timer.textContent = "Timer: " + time + " seconds";
-    }, 1000);
-}
+// function setTime () { 
+//     setInterval(function () {
+//         time--;
+//         timer.textContent = "Timer: " + time + " seconds";
+//     }, 1000);
+// }
 
 button1.addEventListener("click", function () {
     if (i === -1) {
         head.innerHTML = "";
         document.querySelector("#directions").innerHTML = "";
-        var timeint = setTime();
+        timeint = 
+        setInterval(function () {
+            time--;
+            timer.textContent = "Timer: " + time + " seconds";
+        }, 1000);
         question.innerHTML = questions[0].title;
         button1.innerHTML = questions[0].choices[0];
         button2.innerHTML = questions[0].choices[1];
@@ -65,21 +74,23 @@ button1.addEventListener("click", function () {
         button4.setAttribute("class", "buttonShow"); //why doesn't document.querySelector(".response").setAttribute work?
         i++;
         console.log(i);
-    } else if (i === 5) {
+    } else if (button1.innerHTML === "Submit") {
         var initialsInput = document.querySelector("#name");
+        head.innerHTML = "High Scores";
         button1.innerHTML = "Go Back";
         button2.innerHTML = "Clear High Scores";
         button2.setAttribute("class", "buttonShow");
-        HighScores.initials.push(initialsInput.value);
-        //how clear out the form??
+        HighScores.name.push(initialsInput.value);
+        submit.innerHTML = ""; //clears out the form field
+        submit.appendChild(hs);
+        init.innerHTML = "BC";
+        hs.appendChild(init);
+        scor.innerHTML = 57;
+        hs.appendChild(scor);
         console.log(HighScores);
-        i++;
-    }
-    else if (button1.innerHTML === "Go Back") {
-        i = -1;
-        form.removeChild(initials);
-    }
-    else {
+        i = -1; //so don't have to set up a button reader for "Go Back"
+    } else {
+        console.log(1, time);
         if (questions[i].answer === button1.innerHTML) {
             response.setAttribute("id", "right"); //why doesn't document.querySelector(".response").setAttribute work?
             response.innerHTML = "Success!";
@@ -88,11 +99,11 @@ button1.addEventListener("click", function () {
             response.innerHTML = "Wrong, -10 seconds";
             time = time - 10;
         }
-        reset();
+        new_q();
     }
 });
 
-function reset() {
+function new_q() {
     if (i < 4) {
         i++;
         console.log(i);
@@ -102,43 +113,52 @@ function reset() {
         button3.innerHTML = questions[i].choices[2];
         button4.innerHTML = questions[i].choices[3];
     } else if (i === 4) {
-        // clearInterval(timeint); //why doesn't this work?
-        var score = time;
-        HighScores.num.push(score);
-        console.log(HighScores);
-        head.innerHTML = "All done!";
-        question.innerHTML = "";
-        document.querySelector("#directions").innerHTML = "Your final score is " + score;
-        response.innerHTML = "";
-        initials.setAttribute("id", "name");
-        form.appendChild(initials);
-        submit.appendChild(form); //how create an element in the middle of an array?
-        initials.innerHTML = "Enter Initials: ";                   // Insert text
-        button1.innerHTML = "Submit";
-        button2.setAttribute("class", "buttonHide");
-        button3.setAttribute("class", "buttonHide");
-        button4.setAttribute("class", "buttonHide");
-        i++;
+        reset();
     }
 }
 
+function reset() {
+    score = time;
+    clearInterval(timeint);
+    time = questions.length * 15; 
+    HighScores.num.push(score);
+    console.log(HighScores);
+    head.innerHTML = "All done!";
+    question.innerHTML = "";
+    document.querySelector("#directions").innerHTML = "Your final score is " + score;
+    // response.innerHTML = "";
+    initials.setAttribute("id", "name");
+    // initials.addEventListener("click", function () {initials.value = ""
+    form.appendChild(initials);
+    submit.appendChild(form); //how create an element in the middle of an array?
+    initials.innerHTML = "Enter Initials: ";                   // Insert text
+    button1.innerHTML = "Submit";
+    button2.setAttribute("class", "buttonHide");
+    button3.setAttribute("class", "buttonHide");
+    button4.setAttribute("class", "buttonHide");
+}
+
 button2.addEventListener("click", function () {
-    if (questions[i].answer === button2.innerHTML) {
+    console.log(2, time);
+    if (button2.innerHTML === "Clear High Scores") {
+        HighScores = {};
+        console.log(i, "hmmm");
+    } else if (questions[i].answer === button2.innerHTML) {
         response.setAttribute("id", "right");
         response.innerHTML = "Success!";
-    } else if (button2.innerHTML === "Clear High Scores") {
-        HighScores = {};
-    }
-    else {
+        new_q();
+    } else {
         response.setAttribute("id", "wrong");
         response.innerHTML = "Wrong, -10 seconds";
         time = time - 10;
+        new_q();
     }
-    reset();
 
 });
 
+
 button3.addEventListener("click", function () {
+    console.log(3, time);
     if (questions[i].answer === button3.innerHTML) {
         response.setAttribute("id", "right");
         response.innerHTML = "Success!";
@@ -147,11 +167,12 @@ button3.addEventListener("click", function () {
         response.innerHTML = "Wrong, -10 seconds";
         time = time - 10;
     }
-    reset();
+    new_q();
 
 });
 
 button4.addEventListener("click", function () {
+    console.log(4, time);
     if (questions[i].answer === button4.innerHTML) {
         response.setAttribute("id", "right");
         response.innerHTML = "Success!";
@@ -160,7 +181,7 @@ button4.addEventListener("click", function () {
         response.innerHTML = "Wrong, -10 seconds";
         time = time - 10;
     }
-    reset();
+    new_q();
 
 });
 
