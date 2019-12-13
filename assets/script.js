@@ -33,6 +33,7 @@ var time = questions.length * 15; //for countdown timer
 var i = -1;
 var head = document.querySelector("#header");
 var question = document.querySelector("#question");
+var buttonstart = document.querySelector("#button_start");
 var button1 = document.querySelector("#button_1");
 var button2 = document.querySelector("#button_2");
 var button3 = document.querySelector("#button_3");
@@ -42,11 +43,12 @@ var submit = document.querySelector("#submit");
 var timer = document.querySelector(".timer");
 var form = document.createElement("form");
 var initials = document.createElement("input");
-var hs = document.createElement("tr");
-var init = document.createElement("td");
+var hslist = document.createElement("tr");
+var initialsList = document.createElement("td");
 var scor = document.createElement("td");
 var timeint = 0;
 var score = 0;
+var jumbotron = document.querySelector(".jumbotron");
 
 function setTime() {
     var update = setInterval(function () {
@@ -56,34 +58,55 @@ function setTime() {
     return update;
 }
 
-button1.addEventListener("click", function () {
+buttonstart.addEventListener("click", function () {
+    jumbotron.style.display="none";
     if (i === -1) {
         head.innerHTML = "";
         document.querySelector("#directions").innerHTML = "";
         timeint = setTime();
         question.innerHTML = questions[0].title;
-        button1.innerHTML = questions[0].choices[0];
+        button1.innerHTML = questions[0].choices[0]; //way to iterate through this?
         button2.innerHTML = questions[0].choices[1];
         button3.innerHTML = questions[0].choices[2];
         button4.innerHTML = questions[0].choices[3];
+        button1.setAttribute("class", "buttonShow");
         button2.setAttribute("class", "buttonShow");
         button3.setAttribute("class", "buttonShow");
         button4.setAttribute("class", "buttonShow"); //why doesn't document.querySelector(".response").setAttribute work?
         i++;
-        console.log(i);
-    } else if (button1.innerHTML === "Submit") {
+    }
+});
+
+
+button1.addEventListener("click", function () {
+    // if (i === -1) {
+    //     head.innerHTML = "";
+    //     document.querySelector("#directions").innerHTML = "";
+    //     timeint = setTime();
+    //     question.innerHTML = questions[0].title;
+    //     button1.innerHTML = questions[0].choices[0];
+    //     button2.innerHTML = questions[0].choices[1];
+    //     button3.innerHTML = questions[0].choices[2];
+    //     button4.innerHTML = questions[0].choices[3];
+    //     button2.setAttribute("class", "buttonShow");
+    //     button3.setAttribute("class", "buttonShow");
+    //     button4.setAttribute("class", "buttonShow"); //why doesn't document.querySelector(".response").setAttribute work?
+    //     i++;
+    //     console.log(i);
+    // } else 
+    if (button1.innerHTML === "Submit") {
         var initialsInput = document.querySelector("#name");
         head.innerHTML = "High Scores";
         button1.innerHTML = "Go Back";
         button2.innerHTML = "Clear High Scores";
         button2.setAttribute("class", "buttonShow");
         HighScores.name.push(initialsInput.value);
-        submit.innerHTML = ""; //clears out the form field
-        submit.appendChild(hs);
-        init.innerHTML = "BC";
-        hs.appendChild(init);
+        initials.innerHTML = ""; //clears out the form field
+        submit.appendChild(hslist);//lets figure out if this is correct
+        initialsList.innerHTML = "BC";
+        hslist.appendChild(inititialsList);
         scor.innerHTML = 57;
-        hs.appendChild(scor);
+        hslist.appendChild(scor);
         console.log(HighScores);
         i = -1; //so don't have to set up a button reader for "Go Back"
     } else {
