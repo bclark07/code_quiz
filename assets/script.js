@@ -1,213 +1,283 @@
 var questions = [
-    {
-        title: "Commonly used data types DO NOT include:",
-        choices: ["strings", "booleans", "alerts", "numbers"],
-        answer: "alerts"
-    },
-    {
-        title: "The condition in an if / else statement is enclosed within ____.",
-        choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
-        answer: "parentheses"
-    },
-    {
-        title: "Arrays in JavaScript can be used to store ___________.",
-        choices: ["numbers and strings", "other arrays", "booleans", "all of the above"],
-        answer: "all of the above"
-    },
-    {
-        title: "String values must be enclosed within ___________ when being assigned to variables.",
-        choices: ["commas", "curly brackets", "quotes", "parentheses"],
-        answer: "parentheses"
-    },
-    {
-        title: "A very useful tool during debugging and development for printing content to the debugger is:",
-        choices: ["JavaScript", "terminal/bash", "for loops", "console log"],
-        answer: "console log"
-    },
+  {
+    title: "Commonly used data types DO NOT include:",
+    choices: ["strings", "booleans", "alerts", "numbers"],
+    answer: "alerts"
+  },
+  {
+    title: "The condition in an if / else statement is enclosed within ____.",
+    choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+    answer: "parentheses"
+  },
+  {
+    title: "Arrays in JavaScript can be used to store ___________.",
+    choices: [
+      "numbers and strings",
+      "other arrays",
+      "booleans",
+      "all of the above"
+    ],
+    answer: "all of the above"
+  },
+  {
+    title:
+      "String values must be enclosed within ___________ when being assigned to variables.",
+    choices: ["quotes", "commas", "curly brackets", "parentheses"],
+    answer: "quotes"
+  },
+  {
+    title:
+      "A very useful tool during debugging and development for printing content to the debugger is:",
+    choices: ["JavaScript", "terminal/bash", "for loops", "console log"],
+    answer: "console log"
+  }
 ];
 
-var name = [];
-var num = [];
-var HighScores = { name, num };
 var time = questions.length * 15; //for countdown timer
-var i = -1;
+var timeint = 0;
+var i = 0;
+var score = 0;
+
+//header
+var timer = document.querySelector(".timer");
+
+//divs
 var head = document.querySelector("#header");
-var question = document.querySelector("#question");
-var buttonstart = document.querySelector("#button_start");
+var directions = document.querySelector("#directions");
+var buttons = document.querySelector(".buttons");
+var response = document.querySelector(".response");
+var initialsInput = document.querySelector("#name");
+var hslist = document.createElement("tr");
+var initialsList = document.createElement("td");
+var high_score = document.createElement("td");
+
+//buttons
+var button_start = document.querySelector("#button_start");
+var answer_button = document.querySelector(".btn-secondary");
 var button1 = document.querySelector("#button_1");
 var button2 = document.querySelector("#button_2");
 var button3 = document.querySelector("#button_3");
 var button4 = document.querySelector("#button_4");
-var response = document.querySelector(".response");
-var submit = document.querySelector("#submit");
-var timer = document.querySelector(".timer");
-var form = document.createElement("form");
-var initials = document.createElement("input");
-var hslist = document.createElement("tr");
-var initialsList = document.createElement("td");
-var scor = document.createElement("td");
-var timeint = 0;
-var score = 0;
-var jumbotron = document.querySelector(".jumbotron");
+var submit = document.querySelector("#done");
+var next = document.querySelector("#next");
+
+//populates high scrores dropdown
+document
+  .querySelector(".dropdown-toggle")
+  .addEventListener("click", function() {
+    console.log("clicked");
+    document
+      .querySelector(".dropdown-item") //or menu?
+      .appendChild(document.createElement("tr"));
+    //populate with hdList table from the submit page
+    for (i = 0; i < init.length; i++) {
+      var a = init[i];
+      var b = num[i];
+    }
+  });
 
 function setTime() {
-    var update = setInterval(function () {
-        time--;
-        timer.textContent = "Timer: " + time + " seconds";
-    }, 1000);
-    return update;
+  timer.textContent = "Timer = " + time + " seconds";
+  var update = setInterval(function() {
+    time--;
+    timer.textContent = "Timer = " + time + " seconds";
+  }, 1000);
+  return update;
 }
 
-buttonstart.addEventListener("click", function () {
-    jumbotron.style.display="none";
-    if (i === -1) {
-        head.innerHTML = "";
-        document.querySelector("#directions").innerHTML = "";
-        timeint = setTime();
-        question.innerHTML = questions[0].title;
-        button1.innerHTML = questions[0].choices[0]; //way to iterate through this?
-        button2.innerHTML = questions[0].choices[1];
-        button3.innerHTML = questions[0].choices[2];
-        button4.innerHTML = questions[0].choices[3];
-        button1.setAttribute("class", "buttonShow");
-        button2.setAttribute("class", "buttonShow");
-        button3.setAttribute("class", "buttonShow");
-        button4.setAttribute("class", "buttonShow"); //why doesn't document.querySelector(".response").setAttribute work?
-        i++;
-    }
+button_start.addEventListener("click", function() {
+  head.innerHTML = questions[i].title;
+  directions.style.display = "none";
+  buttons.style.display = "";
+  timeint = setTime();
 });
 
-
-button1.addEventListener("click", function () {
-    // if (i === -1) {
-    //     head.innerHTML = "";
-    //     document.querySelector("#directions").innerHTML = "";
-    //     timeint = setTime();
-    //     question.innerHTML = questions[0].title;
-    //     button1.innerHTML = questions[0].choices[0];
-    //     button2.innerHTML = questions[0].choices[1];
-    //     button3.innerHTML = questions[0].choices[2];
-    //     button4.innerHTML = questions[0].choices[3];
-    //     button2.setAttribute("class", "buttonShow");
-    //     button3.setAttribute("class", "buttonShow");
-    //     button4.setAttribute("class", "buttonShow"); //why doesn't document.querySelector(".response").setAttribute work?
-    //     i++;
-    //     console.log(i);
-    // } else 
-    if (button1.innerHTML === "Submit") {
-        var initialsInput = document.querySelector("#name");
-        head.innerHTML = "High Scores";
-        button1.innerHTML = "Go Back";
-        button2.innerHTML = "Clear High Scores";
-        button2.setAttribute("class", "buttonShow");
-        HighScores.name.push(initialsInput.value);
-        initials.innerHTML = ""; //clears out the form field
-        submit.appendChild(hslist);//lets figure out if this is correct
-        initialsList.innerHTML = "BC";
-        hslist.appendChild(inititialsList);
-        scor.innerHTML = 57;
-        hslist.appendChild(scor);
-        console.log(HighScores);
-        i = -1; //so don't have to set up a button reader for "Go Back"
-    } else {
-        console.log(1, time);
-        if (questions[i].answer === button1.innerHTML) {
-            response.setAttribute("id", "right"); //why doesn't document.querySelector(".response").setAttribute work?
-            response.innerHTML = "Success!";
-        } else {
-            wrong();
-        }
-        new_q();
-    }
+//determines if a question was answered correctly or incorrectly
+button1.addEventListener("click", function() {
+  if (questions[i].answer === button1.innerHTML) {
+    response.setAttribute("id", "right");
+    response.innerHTML = "Success!";
+  } else {
+    wrong();
+  }
+  new_q();
 });
 
-function new_q() {
-    if (i < 4) {
-        i++;
-        console.log(i);
-        question.innerHTML = questions[i].title;
-        button1.innerHTML = questions[i].choices[0];
-        button2.innerHTML = questions[i].choices[1];
-        button3.innerHTML = questions[i].choices[2];
-        button4.innerHTML = questions[i].choices[3];
-    } else if (i === 4) {
-        reset();
-    }
-}
-
-function reset() {
-    score = time;
-    clearInterval(timeint);
-    time = questions.length * 15;
-    HighScores.num.push(score);
-    console.log(HighScores);
-    head.innerHTML = "All done!";
-    question.innerHTML = "";
-    document.querySelector("#directions").innerHTML = "Your final score is " + score;
-    // response.innerHTML = "";
-    initials.setAttribute("id", "name");
-    // initials.addEventListener("click", function () {initials.value = ""
-    form.appendChild(initials);
-    submit.appendChild(form); //how create an element in the middle of an array?
-    initials.innerHTML = "Enter Initials: ";                   // Insert text
-    button1.innerHTML = "Submit";
-    button2.setAttribute("class", "buttonHide");
-    button3.setAttribute("class", "buttonHide");
-    button4.setAttribute("class", "buttonHide");
-}
-
-button2.addEventListener("click", function () {
-    console.log(2, time);
-    if (button2.innerHTML === "Clear High Scores") {
-        HighScores = {};
-        console.log(i, "hmmm");
-    } else if (questions[i].answer === button2.innerHTML) {
-        response.setAttribute("id", "right");
-        response.innerHTML = "Success!";
-        new_q();
-    } else {
-        wrong();
-        new_q();
-    }
-
+//determines if a question was answered correctly or incorrectly
+button2.addEventListener("click", function() {
+  if (questions[i].answer === button2.innerHTML) {
+    response.setAttribute("id", "right");
+    response.innerHTML = "Success!";
+  } else {
+    wrong();
+  }
+  new_q();
 });
 
-
-button3.addEventListener("click", function () {
-    console.log(3, time);
-    if (questions[i].answer === button3.innerHTML) {
-        response.setAttribute("id", "right");
-        response.innerHTML = "Success!";
-    } else {
-        wrong();
-    }
-    new_q();
-
+//determines if a question was answered correctly or incorrectly
+button3.addEventListener("click", function() {
+  if (questions[i].answer === button3.innerHTML) {
+    response.setAttribute("id", "right");
+    response.innerHTML = "Success!";
+  } else {
+    wrong();
+  }
+  new_q();
 });
 
-button4.addEventListener("click", function () {
-    console.log(4, time);
-    if (questions[i].answer === button4.innerHTML) {
-        response.setAttribute("id", "right");
-        response.innerHTML = "Success!";
-    } else {
-        wrong();
-    }
-    new_q();
-
+//determines if a question was answered correctly or incorrectly
+button4.addEventListener("click", function() {
+  if (questions[i].answer === button4.innerHTML) {
+    response.setAttribute("id", "right");
+    response.innerHTML = "Success!";
+  } else {
+    wrong();
+  }
+  new_q();
 });
 
+//subtracts 10 seconds if answer incorrectly
 function wrong() {
-    response.setAttribute("id", "wrong");
-    response.innerHTML = "Wrong, -10 seconds";
-    time = time - 10;
-    timer.textContent = "Timer: " + time + " seconds";
+  response.setAttribute("id", "wrong");
+  response.innerHTML = "Wrong, -10 seconds";
+  time = time - 10;
+  timer.textContent = "Timer = " + time + " seconds";
 }
 
+//changes the quiz question and answers when answer a question
+function new_q() {
+  if (i < 4) {
+    i++;
+    head.innerHTML = questions[i].title;
+    button1.innerHTML = questions[i].choices[0];
+    button2.innerHTML = questions[i].choices[1];
+    button3.innerHTML = questions[i].choices[2];
+    button4.innerHTML = questions[i].choices[3];
+  } else if (i === 4) {
+    finished_quiz();
+  }
+}
 
+function finished_quiz() {
+  score = time;
+  clearInterval(timeint);
+  time = questions.length * 15;
+  //   HighScores.num.push(score);
+  //   num.push(score);
 
-    // need to store the answer somewhere and compare it to the correct answer
-    // need to return a grade
-    //worry about the colors and bootstrap later - go back and change all the assignements to reflect the bootstrap
+  buttons.style.display = "none";
+  head.innerHTML = "All done!";
+  document.querySelector(".form-group").setAttribute("style", "");
+  document.querySelector("#result").innerHTML = "Your final score is " + score;
+}
 
+//add on-clicks for start, answer buttons, submit and submit trigger the clear/go-back option?
+submit.addEventListener("click", function() {
+  if (submit.innerHTML === "Submit") {
+    var storedScores = JSON.parse(localStorage.getItem("scores")) || [];
+    var initials = document.querySelector("#name").value; //gets this initials
+    var combo = { init: initials, num: score }; //creates an object with the user's score
+    storedScores.push(combo);
+    localStorage.setItem("scores", JSON.stringify(storedScores));
+    var sortedScores = storedScores.sort(function(a, b) {
+      return b.num - a.num;
+    });
+    console.log(sortedScores);
+    console.log("sorted1" + sortedScores); //why does this console.log differently?
 
+    //pull num and init from local storage, put into high scores array and sort by score
+    // localStorage.setItem("interestedFoods", JSON.stringify(interestedFoods));
+    // create for loop to loop length of num and assign init[i] and num[i] to a td tag, embed in tr tag and append to tbody?
+    // document
+    //   .querySelector(".dropdown-item") //or menu?
+    //   .appendChild(document.createElement("tr"));
+    //populate with hdList table from the submit page
+
+    // init.push(initials);
+    // // storedScores.init.push(initials);
+    // // storedScores.num.push(score);
+    // localStorage.setItem("initials_list", init);
+    // // localStorage.setItem("scores", num);
+    // // var HighScores = { init, num };
+    // localStorage.setItem("scores", JSON.stringify(storedScores));
+    // for (i = 0; i < num.length; i++) {
+    //   // build the table
+    //   var a = init[i];
+    //   var b = num[i];
+    //   console.log(a, b);
+    //   initialsList.innerHTML = a;
+    //   high_score.innerHTML = b;
+    // }
+    // localStorage.setItem("lastRecipes", JSON.stringify(lastRecipes));
+    // lastRecipes = JSON.parse(localStorage.getItem("lastRecipes"));
+    //example
+    // var email = document.querySelector("#email").value;
+    // var password = document.querySelector("#password").value;
+    // localStorage.setItem("email", email);
+    // localStorage.setItem("password", password);
+    // renderLastRegistered();
+
+    // function renderLastRegistered() {
+    //   var email = localStorage.getItem("email");
+    //   var password = localStorage.getItem("password");
+
+    //   if (email && password === null) {
+    //     return;
+    //   }
+
+    //   userEmailSpan.textContent = email;
+    //   userPasswordSpan.textContent = password;
+    // }
+    //example ends
+    // var hslist = document.createElement("tr");
+    // var initialsList = document.createElement("td");
+    // var high_score = document.createElement("td");
+
+    // head.innerHTML = "High Scores";
+    // submit.innerHTML = "Go Back";
+    // next.setAttribute("class", "btn btn-success buttonShow"); //ad new id
+    // // HighScores.init.push(initialsInput.value);
+
+    // //need for loop to loop through array and show values
+    // console.log(HighScores.num.length);
+    // console.log("ok");
+    // for (v = 0; v < HighScores.num.length; v++) {
+    //   initialsList.innerHTML = HighScores.init[v];
+    //   console.log(HighScores.init[v]);
+    //   high_score.innerHTML = HighScores.num[v];
+    //   // hslist.appendChild(initialsList);
+    //   hslist = hslist.appendChild(initialsList);
+    //   hslist = hslist.prependChild(high_score);
+    //   // .appendChild(high_score);
+    //   //how get hslist to get new value of hslist with appended elements
+    //   document.querySelector("#list_here").appendChild(hslist); //lets figure out if this is correct
+    // }
+    // document.querySelector(".highscores").setAttribute("style", "display: ");
+  } else {
+    //restarts quiz
+    i = 0;
+    initialsInput.value = ""; //check that clears out the form field
+    head.innerHTML = questions[i].title;
+    button1.innerHTML = questions[i].choices[0];
+    button2.innerHTML = questions[i].choices[1];
+    button3.innerHTML = questions[i].choices[2];
+    button4.innerHTML = questions[i].choices[3];
+    buttons.style.display = "";
+    document
+      .querySelector(".form-group")
+      .setAttribute("style", "display: none");
+    document
+      .querySelector(".highscores")
+      .setAttribute("style", "display: none");
+    response.innerHTML = "";
+    submit.innerHTML = "Submit";
+    next.setAttribute("class", "btn btn-success buttonHide");
+  }
+});
+
+//clears high scores list
+next.addEventListener("click", function() {
+  init = [];
+  num = [];
+  //   HighScores = { init, num };
+});

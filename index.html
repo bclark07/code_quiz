@@ -1,63 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Code Quiz</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="./assets/style.css">
-</head>
+    <!-- href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" -->
+    <!-- integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
 
-<body>
-
+  <body>
     <header>
-        <!--add timer and "View High Scores" - need to return HighScores array somewhere-->
-        <div class="high_scores">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- href = data-target, links to expanding portion, a tag role = button, button tag type = button -->
+
+        <div class="dropdown">
+          <button
+            class="btn btn-light dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
             High Scores
-            <!-- can have a table array and print, tooltips displays div, make it an an tag -->
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <table class="dropdown-item table-sm table-bordered">
+              <tr>
+                <th>Initials</th>
+                <th>Score</th>
+              </tr>
+              <!-- <tr> populates with table of high scores
+                <td>BC</td>
+                <td>22</td>
+              </tr>
+              <tr>
+                <td>ME</td>
+                <td>55</td>
+              </tr> -->
+            </table>
+          </div>
         </div>
+
         <div class="timer">
-            Timer = 75 seconds
+          Timer = 0 seconds
         </div>
+      </nav>
     </header>
 
-    <!-- <div class="jumbotron">
-        <h1 class="display-4" id="header">Coding Quiz Challenge</h1>
-        <p class="lead" id="directions">Try to answer the following code-related questions within the time limit. Your score will be the time
-            remaining when you complete the quiz. Incorrect answers will reduce your remaining time by 10 seconds.</p>
-        <hr class="my-4">
-       
-        <a class="btn btn-primary btn-lg buttonShow" href="#" role="button" id="button_start">Start Quiz</a>
-      </div> -->
-
-    <div class="jumbotron" id="page">
-        <h1 class="display-4" id="header">Coding Quiz Challenge</h1>
-        <div class="lead" id="directions">
-            <p>Try to answer the following code-related questions within the time limit. Your score will be the time
-                remaining when you complete the quiz. Incorrect answers will reduce your remaining time by 10 seconds.
-            </p>
-            <button type="button" class="btn btn-primary buttonShow" id="button_start">Start Quiz</button>
-        </div>
-    </div>
-
     <div class="jumbotron">
-        <h2 class="display-4" id="question"></h2>
-        <div class="buttons">
-            <button type="button" class="btn btn-secondary buttonHide" id="button_1"></button>
-            <!-- <button class="buttonShow" id="button_1">Start Quiz</button> old notation -->
-            <button type="button" class="btn btn-secondary buttonHide" id="button_2"></button>
-            <button type="button" class="btn btn-secondary buttonHide" id="button_3"></button>
-            <button type="button" class="btn btn-secondary buttonHide" id="button_4"></button>
-        </div>
-        <div class="response">
-        </div>
-        <div class="highscores">
-        </div>
-    </div>
-    <script src="./assets/script.js"></script>
-</body>
+      <!-- this is replaced with questions -->
+      <h1 class="display-4" id="header">Coding Quiz Challenge</h1>
 
+      <!-- this div hides when click Start -->
+      <div class="lead" id="directions">
+        <p>
+          Try to answer the following code-related questions within the time
+          limit. Your score will be the time remaining when you complete the
+          quiz. Incorrect answers will reduce your remaining time by 10 seconds.
+        </p>
+        <button
+          type="button"
+          class="btn btn-primary buttonShow btn-block"
+          id="button_start"
+        >
+          Start Quiz
+        </button>
+      </div>
+
+      <!-- this div appears when click start button, hides when finish quiz  -->
+      <div class="buttons" style="display: none">
+        <button type="button" class="btn btn-secondary" id="button_1">
+          strings
+        </button>
+        <br />
+        <button type="button" class="btn btn-secondary" id="button_2">
+          booleans
+        </button>
+        <br />
+        <button type="button" class="btn btn-secondary" id="button_3">
+          alerts
+        </button>
+        <br />
+        <button type="button" class="btn btn-secondary" id="button_4">
+          numbers
+        </button>
+        <p class="response"></p>
+      </div>
+
+      <!-- this div appears when finish the quiz  -->
+      <div class="form-group" style="display: none">
+        <p id="result"></p>
+        <label>Enter Initials:</label>
+        <input type="text" class="form-control" id="name" />
+        <br />
+        <button type="button" class="btn btn-success" id="done">Submit</button>
+        <button type="button" class="btn btn-success buttonHide" id="next">
+          Clear High Scores
+        </button>
+      </div>
+
+      <div class="highscores" style="display: none">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th style="text-align: center">Initials</th>
+              <th style="text-align: center">Score</th>
+            </tr>
+          </thead>
+          <tbody id="list_here">
+            <!-- need to append scores here with blank tr and 2 td tags  -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="./assets/script.js"></script>
+    <!-- need these for bootstrap -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
