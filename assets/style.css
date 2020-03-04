@@ -1,38 +1,40 @@
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
-header {  
-    display: flex;
-    justify-content: space-between;
+header {
+  display: flex;
+  justify-content: space-between;
 }
 
 #directions {
-    text-align: center
+  text-align: center;
 }
 
 .buttonShow {
-    display: block; /* display none hides the element vs. visibility: hidden just makes the element clear, keeps the space */
-
+  display: block; /* display none hides the element vs. visibility: hidden just makes the element clear, keeps the space */
 }
 
 .buttonHide {
-    display: none; /* display none hides the element vs. visibility: hidden just makes the element clear, keeps the space */
+  display: none; /* display none hides the element vs. visibility: hidden just makes the element clear, keeps the space */
+}
 
+.table td {
+  padding: 0;
 }
 
 .response {
-    padding-top: 15px;
+  padding-top: 15px;
 }
 
 #submit {
-    padding: 15px;
+  padding: 15px;
 }
 
 #right {
-    color: green;
+  color: green;
 }
 
 #wrong {
-    color: red;
+  color: red;
 }

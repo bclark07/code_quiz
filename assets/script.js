@@ -37,6 +37,7 @@ var time = questions.length * 15; //for countdown timer
 var timeint = 0;
 var i = 0;
 var score = 0;
+var sortedScores = JSON.parse(localStorage.getItem("scores")) || [];
 
 //header
 var timer = document.querySelector(".timer");
@@ -47,9 +48,6 @@ var directions = document.querySelector("#directions");
 var buttons = document.querySelector(".buttons");
 var response = document.querySelector(".response");
 var initialsInput = document.querySelector("#name");
-var hslist = document.createElement("tr");
-var initialsList = document.createElement("td");
-var high_score = document.createElement("td");
 
 //buttons
 var button_start = document.querySelector("#button_start");
@@ -59,21 +57,30 @@ var button2 = document.querySelector("#button_2");
 var button3 = document.querySelector("#button_3");
 var button4 = document.querySelector("#button_4");
 var submit = document.querySelector("#done");
-var next = document.querySelector("#next");
+var clear = document.querySelector("#clear");
+var exit = document.querySelector("#exit");
 
-//populates high scrores dropdown
+// create tr and td elements to append to tbody in html
+function createTable(objectArr, marker) {
+  for (v = 0; v < objectArr.length; v++) {
+    var td1 = new DOMParser().parseFromString(objectArr[v].init, "text/xml");
+    var td2 = new DOMParser().parseFromString(objectArr[v].num, "text/xml");
+    var row = document.createElement("tr");
+    row.setAttribute("class", "d-flex justify-content-around");
+    row.appendChild(td1.firstChild);
+    row.appendChild(td2.firstChild);
+    document.querySelector(marker).appendChild(row);
+  }
+}
+
+//populates high scores dropdown
+//why isn't this working on the home page?
 document
-  .querySelector(".dropdown-toggle")
+  .querySelector("#dropdownMenuButton")
   .addEventListener("click", function() {
     console.log("clicked");
-    document
-      .querySelector(".dropdown-item") //or menu?
-      .appendChild(document.createElement("tr"));
-    //populate with hdList table from the submit page
-    for (i = 0; i < init.length; i++) {
-      var a = init[i];
-      var b = num[i];
-    }
+    document.querySelector(".dropdown-scores").innerHTML = "";
+    createTable(sortedScores, ".dropdown-scores");
   });
 
 function setTime() {
@@ -81,6 +88,11 @@ function setTime() {
   var update = setInterval(function() {
     time--;
     timer.textContent = "Timer = " + time + " seconds";
+    if (time <= 0) {
+      clearInterval(timeint);
+      reset();
+      alert("Sorry, your time ran out");
+    }
   }, 1000);
   return update;
 }
@@ -91,6 +103,20 @@ button_start.addEventListener("click", function() {
   buttons.style.display = "";
   timeint = setTime();
 });
+
+function reset() {
+  head.innerHTML = "Coding Quiz Challenge";
+  directions.style.display = "";
+  buttons.style.display = "none";
+  i = 0;
+  button1.innerHTML = questions[i].choices[0];
+  button2.innerHTML = questions[i].choices[1];
+  button3.innerHTML = questions[i].choices[2];
+  button4.innerHTML = questions[i].choices[3];
+  response.innerHTML = "";
+  time = questions.length * 15;
+  timer.textContent = "Timer = 0 seconds";
+}
 
 //determines if a question was answered correctly or incorrectly
 button1.addEventListener("click", function() {
@@ -162,9 +188,6 @@ function finished_quiz() {
   score = time;
   clearInterval(timeint);
   time = questions.length * 15;
-  //   HighScores.num.push(score);
-  //   num.push(score);
-
   buttons.style.display = "none";
   head.innerHTML = "All done!";
   document.querySelector(".form-group").setAttribute("style", "");
@@ -176,108 +199,38 @@ submit.addEventListener("click", function() {
   if (submit.innerHTML === "Submit") {
     var storedScores = JSON.parse(localStorage.getItem("scores")) || [];
     var initials = document.querySelector("#name").value; //gets this initials
-    var combo = { init: initials, num: score }; //creates an object with the user's score
+    document.querySelector("#name").value = "";
+    var combo = {
+      init: "<td>" + initials + "</td>",
+      num: "<td>" + score + "</td>"
+    }; //creates an object with the user's score
     storedScores.push(combo);
-    localStorage.setItem("scores", JSON.stringify(storedScores));
-    var sortedScores = storedScores.sort(function(a, b) {
-      return b.num - a.num;
+    sortedScores = storedScores.sort(function(a, b) {
+      var val1 = new DOMParser().parseFromString(b.num, "text/xml");
+      var val2 = new DOMParser().parseFromString(a.num, "text/xml");
+      return val1.firstChild.innerHTML - val2.firstChild.innerHTML;
     });
     console.log(sortedScores);
     console.log("sorted1" + sortedScores); //why does this console.log differently?
-
-    //pull num and init from local storage, put into high scores array and sort by score
-    // localStorage.setItem("interestedFoods", JSON.stringify(interestedFoods));
-    // create for loop to loop length of num and assign init[i] and num[i] to a td tag, embed in tr tag and append to tbody?
-    // document
-    //   .querySelector(".dropdown-item") //or menu?
-    //   .appendChild(document.createElement("tr"));
-    //populate with hdList table from the submit page
-
-    // init.push(initials);
-    // // storedScores.init.push(initials);
-    // // storedScores.num.push(score);
-    // localStorage.setItem("initials_list", init);
-    // // localStorage.setItem("scores", num);
-    // // var HighScores = { init, num };
-    // localStorage.setItem("scores", JSON.stringify(storedScores));
-    // for (i = 0; i < num.length; i++) {
-    //   // build the table
-    //   var a = init[i];
-    //   var b = num[i];
-    //   console.log(a, b);
-    //   initialsList.innerHTML = a;
-    //   high_score.innerHTML = b;
-    // }
-    // localStorage.setItem("lastRecipes", JSON.stringify(lastRecipes));
-    // lastRecipes = JSON.parse(localStorage.getItem("lastRecipes"));
-    //example
-    // var email = document.querySelector("#email").value;
-    // var password = document.querySelector("#password").value;
-    // localStorage.setItem("email", email);
-    // localStorage.setItem("password", password);
-    // renderLastRegistered();
-
-    // function renderLastRegistered() {
-    //   var email = localStorage.getItem("email");
-    //   var password = localStorage.getItem("password");
-
-    //   if (email && password === null) {
-    //     return;
-    //   }
-
-    //   userEmailSpan.textContent = email;
-    //   userPasswordSpan.textContent = password;
-    // }
-    //example ends
-    // var hslist = document.createElement("tr");
-    // var initialsList = document.createElement("td");
-    // var high_score = document.createElement("td");
-
-    // head.innerHTML = "High Scores";
-    // submit.innerHTML = "Go Back";
-    // next.setAttribute("class", "btn btn-success buttonShow"); //ad new id
-    // // HighScores.init.push(initialsInput.value);
-
-    // //need for loop to loop through array and show values
-    // console.log(HighScores.num.length);
-    // console.log("ok");
-    // for (v = 0; v < HighScores.num.length; v++) {
-    //   initialsList.innerHTML = HighScores.init[v];
-    //   console.log(HighScores.init[v]);
-    //   high_score.innerHTML = HighScores.num[v];
-    //   // hslist.appendChild(initialsList);
-    //   hslist = hslist.appendChild(initialsList);
-    //   hslist = hslist.prependChild(high_score);
-    //   // .appendChild(high_score);
-    //   //how get hslist to get new value of hslist with appended elements
-    //   document.querySelector("#list_here").appendChild(hslist); //lets figure out if this is correct
-    // }
-    // document.querySelector(".highscores").setAttribute("style", "display: ");
-  } else {
-    //restarts quiz
-    i = 0;
-    initialsInput.value = ""; //check that clears out the form field
-    head.innerHTML = questions[i].title;
-    button1.innerHTML = questions[i].choices[0];
-    button2.innerHTML = questions[i].choices[1];
-    button3.innerHTML = questions[i].choices[2];
-    button4.innerHTML = questions[i].choices[3];
-    buttons.style.display = "";
+    localStorage.setItem("scores", JSON.stringify(sortedScores));
     document
       .querySelector(".form-group")
       .setAttribute("style", "display: none");
+    document.querySelector(".highscores").setAttribute("style", "");
+  }
+  document.querySelector(".list_here").innerHTML = "";
+  createTable(sortedScores, ".list_here");
+
+  //clears high scores list
+  clear.addEventListener("click", function() {
+    localStorage.removeItem("scores");
+  });
+
+  //returns to main page
+  exit.addEventListener("click", function() {
+    reset();
     document
       .querySelector(".highscores")
       .setAttribute("style", "display: none");
-    response.innerHTML = "";
-    submit.innerHTML = "Submit";
-    next.setAttribute("class", "btn btn-success buttonHide");
-  }
-});
-
-//clears high scores list
-next.addEventListener("click", function() {
-  init = [];
-  num = [];
-  //   HighScores = { init, num };
+  });
 });
